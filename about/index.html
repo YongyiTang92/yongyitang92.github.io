@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   
     <title>唐永毅 | Hexo</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="John Doe">
     
@@ -23,8 +23,6 @@
     <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
     
     <link rel="stylesheet" href="/css/style.css">
-    <link href="/css/hover.css" rel="stylesheet">
-    <link href="/css/bottom.css" rel="stylesheet">
 </head>
 
       <body>
@@ -32,27 +30,31 @@
           <div>
 		
 			<div id="imglogo">
-				<a rel="pulse" class="pulse" href="/"><img src="/img/pacman.png" alt="Hexo" title="Hexo"/></a>
+				<a href="/"><img src="/img/logo.svg" alt="Hexo" title="Hexo"/></a>
 			</div>
 			
 			<div id="textlogo">
-				<h1 class="site-name"><a rel="hover" class="hover" href="/" title="Hexo">Hexo</a></h1>
-				<h2 class="blog-motto"></a></h2>
+				<h1 class="site-name"><a href="/" title="Hexo">Hexo</a></h1>
+				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a rel="buzz" class="buzz" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
-					<ul>
-					 
-						<li><a rel="wobble-top" class="wobble-top" href="/">Home</a></li>
 					
-						<li><a rel="wobble-top" class="wobble-top" href="/archives">Menu</a></li>
+						<li><a href="/">Home</a></li>
 					
-						<li><a rel="wobble-top" class="wobble-top" href="/tags">Index</a></li>
+						<li><a href="/archives">Archives</a></li>
 					
-						<li><a rel="wobble-top" class="wobble-top" href="/about">About</a></li>
+					<li>
 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
 				</ul>
 			</nav>			
 </div>
@@ -72,7 +74,7 @@
     </p>
   <p class="article-time">
     <time datetime="2016-04-22T10:05:16.575Z" itemprop="datePublished">2016-04-22</time>
-    更新日期:<time datetime="2016-04-22T10:05:16.546Z" itemprop="dateModified">2016-04-22</time>
+    Updated:<time datetime="2016-04-22T10:05:16.546Z" itemprop="dateModified">2016-04-22</time>
     
   </p>
 </header>
@@ -96,10 +98,6 @@
 	</article>
 	
 	
-<section class="comment">
-	<div class="ds-thread"></div>
-</section>
-
 </div>  
         </div>
         <footer><div id="footer" >
@@ -110,21 +108,21 @@
 	</div>
 	
 	
-	<div class="social-font" class="clearfix">
+	<div class="social-font clearfix">
+		
 		
 		
 		
 		
 	</div>
-		<p class="copyright">Powered by <a rel="float-shadow" class="float-shadow" href="http://zespia.tw/hexo/" target="_blank" title="hexo">Hexo</a> and Theme by <a class="box-shadow-inset"href="https://github.com/uruir/pacmanhover" target="_blank" title="Pacman">PacmanHover</a> © 2016 
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2016 
 		
-		
-		<a class="wobble-horizontal" rel="wobble-horizontal" href="http://yoursite.com" target="_blank" title="John Doe">John Doe</a>
+		<a href="http://yoursite.com" target="_blank" title="John Doe">John Doe</a>
 		
 		</p>
 </div>
 </footer>
-        <script src="/js/jquery-2.0.3.min.js"></script>
+        <script src="/js/jquery-2.1.0.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){ 
   $('.navbar').click(function(){
@@ -200,40 +198,7 @@ $(document).ready(function(){
 </script>
 
 
-<script type="text/javascript">
-  var duoshuoQuery = {short_name:"null"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-</script> 
 
-
-
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ 
-  $('.article-content').each(function(i){
-    $(this).find('img').each(function(){
-      if ($(this).parent().hasClass('fancybox')) return;
-      var alt = this.alt;
-      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
-      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
-    });
-    $(this).find('.fancybox').each(function(){
-      $(this).attr('rel', 'article' + i);
-    });
-  });
-  if($.fancybox){
-    $('.fancybox').fancybox();
-  }
-}); 
-</script>
 
 
 
