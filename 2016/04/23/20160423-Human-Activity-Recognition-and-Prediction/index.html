@@ -86,7 +86,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/04/23/20160423-Human-Activity-Recognition-and-Prediction/index.html">
 <meta property="og:site_name" content="Yongyi's Blog">
 <meta property="og:description" content="Human Activity Recognition and Prediction By Yun FuChapter 6 Activity Prediction">
-<meta property="og:updated_time" content="2016-04-24T06:08:20.425Z">
+<meta property="og:updated_time" content="2016-04-24T06:21:10.688Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[20160423]Human Activity Recognition and Prediction (C-6)">
 <meta name="twitter:description" content="Human Activity Recognition and Prediction By Yun FuChapter 6 Activity Prediction">
@@ -290,7 +290,7 @@
         <p>Human Activity Recognition and Prediction By Yun Fu<br>Chapter 6 Activity Prediction<br><a id="more"></a></p>
 <h2 id="Chapter-6-Activity-Prediction"><a href="#Chapter-6-Activity-Prediction" class="headerlink" title="Chapter 6 - Activity Prediction"></a>Chapter 6 - Activity Prediction</h2><p>  Activity Prediction与Action Recognition的区别:     Action video data arrive sequentially in action prediction。<br>  文中提出Multiple temporal scale support vector machine (MTSSVM)对action进行prediction。 MTSSVM有助于提取action中动态的和演化性的信息，并且可以根据部分观测的video对aciton进行prediction。</p>
 <p>  Related Work: 在Action Recognition问题中，常用的是Bag-of-words方法，但是该方法对于Appearance和Pose变化较大的情况表现不好，改进的方法有：<br>  1.用sematic description or attributes描述；<br>  2.用关键帧的方法。<br>  但以上都是用在Fully observe video中的方法，本文主要做的是prediction也即是对于partial observe video而言的。<br>  对于Pose或Appearance的时间演化(temporal evolutions)可以用Sequential State Models建模(类似HMM等方法)，但没有考虑这些演化与Observation ratios间的关系，就是说需要考虑Pose或Appearance的演化程度与动作进行的ratios的关系。<br>  之前有人提出Integral bag-of-words(IBoW)方法和Dynamic bag-of-words(DBoW)方法进行action prediction。他们用同类、同阶段的the mean of feature去建模，考虑到intra-class(类间) appearance variation,又用sparse coding表达Action model.<br>  本文模型考虑了信息会随着新的观测的到来而积累，并考虑label consistency，还有action dynamics at multiple scale。</p>
-<p>  Method:<br>  数据组织:首先是将视频平均分割成K段，每段长度为T/K(总长度为T)。定义progress level:t/K(t为帧数), observation ratio:t/T。<br>  Action Representations:获得interest points和trajectories然后进行聚类，用Histogram of visual words方法对entire partial video进行表达。<br>  令$D = \{x_i,y_i\}_{i=1}^N$为训练数据,<br>  其中$x_i$为第i个fully observed action video且$y_i$为对应的action label。<br>  Action prediction问题可转化为学习一个函数$f:\mathcal{X} \rightarrow \mathcal{Y}$,表示将部分观测视频$x_{(1,k)}\in\mathcal{X}$映射到Action label$y\in\mathcal{Y}(k\in{1,…,K})$<br>  本文希望学习一个discriminat function$F:\mathcal{X} \rightarrow \mathcal{Y}$用于对训练样本$(x,y)$进行打分(score),而非寻找函数$f$.<br>  $F$定义为一个线性函数$F(x_{(1,k)},y:\mathbf{w}) = \langle\mathbf{w},\Phi(x_{(1,k)},y)\rangle$</p>
+<p>  Method:<br>  数据组织:首先是将视频平均分割成K段，每段长度为T/K(总长度为T)。定义progress level:t/K(t为帧数), observation ratio:t/T。<br>  Action Representations:获得interest points和trajectories然后进行聚类，用Histogram of visual words方法对entire partial video进行表达。<br>  令$D = \{x_i,y_i\}_{i=1}^N$为训练数据,<br>  其中$x_i$为第i个fully observed action video且$y_i$为对应的action label。<br>  Action prediction问题可转化为学习一个函数$f:\mathcal{X} \rightarrow \mathcal{Y}$,表示将部分观测视频$x_{(1,k)}\in\mathcal{X}$映射到Action label$y\in\mathcal{Y}(k\in{1,…,K})$<br>  本文希望学习一个discriminat function$F:\mathcal{X} \rightarrow \mathcal{Y}$用于对训练样本$(x,y)$进行打分(score),而非寻找函数$f$.<br>  $F$定义为一个线性函数$F(x_{(1,k)},y:\mathbf{w}) = \langle\mathbf{w},\Phi(x_{(1,k)},y)\rangle$.</p>
 
       
     </div>
