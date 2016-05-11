@@ -80,16 +80,16 @@
 
 
 
-<meta name="description" content="Human Activity Recognition and Prediction By Yun FuChapter 6 Activity Prediction">
+<meta name="description" content="Neural Machine Translation by jointly learning to align and translateBy Dzmitry Bahdanau, KyungHyun Cho, Yoshua Bengio">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[20160423]Human Activity Recognition and Prediction (C-6)">
-<meta property="og:url" content="http://yoursite.com/2016/04/23/20160423-Human-Activity-Recognition-and-Prediction/index.html">
+<meta property="og:title" content="20160429 Neural Machine Translation by jointly learning to align and translate">
+<meta property="og:url" content="http://yoursite.com/2016/04/29/20160429-Neural-Machine-Translation-by-jointly-learning-to-align-and-translate/index.html">
 <meta property="og:site_name" content="Yongyi's Blog">
-<meta property="og:description" content="Human Activity Recognition and Prediction By Yun FuChapter 6 Activity Prediction">
-<meta property="og:updated_time" content="2016-04-24T07:29:45.030Z">
+<meta property="og:description" content="Neural Machine Translation by jointly learning to align and translateBy Dzmitry Bahdanau, KyungHyun Cho, Yoshua Bengio">
+<meta property="og:updated_time" content="2016-05-11T08:19:16.752Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[20160423]Human Activity Recognition and Prediction (C-6)">
-<meta name="twitter:description" content="Human Activity Recognition and Prediction By Yun FuChapter 6 Activity Prediction">
+<meta name="twitter:title" content="20160429 Neural Machine Translation by jointly learning to align and translate">
+<meta name="twitter:description" content="Neural Machine Translation by jointly learning to align and translateBy Dzmitry Bahdanau, KyungHyun Cho, Yoshua Bengio">
 
 
 
@@ -107,7 +107,7 @@
   };
 </script>
 
-  <title> [20160423]Human Activity Recognition and Prediction (C-6) | Yongyi's Blog </title>
+  <title> 20160429 Neural Machine Translation by jointly learning to align and translate | Yongyi's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -221,7 +221,7 @@
             
             
               
-                [20160423]Human Activity Recognition and Prediction (C-6)
+                20160429 Neural Machine Translation by jointly learning to align and translate
               
             
           </h1>
@@ -233,8 +233,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-04-23T10:31:54+08:00" content="2016-04-23">
-              2016-04-23
+            <time itemprop="dateCreated" datetime="2016-04-29T14:26:07+08:00" content="2016-04-29">
+              2016-04-29
             </time>
           </span>
 
@@ -247,8 +247,8 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Computer-Vision/" itemprop="url" rel="index">
-                    <span itemprop="name">Computer Vision</span>
+                  <a href="/categories/Neural-Network/" itemprop="url" rel="index">
+                    <span itemprop="name">Neural Network</span>
                   </a>
                 </span>
 
@@ -263,8 +263,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/23/20160423-Human-Activity-Recognition-and-Prediction/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/23/20160423-Human-Activity-Recognition-and-Prediction/" itemprop="commentsCount"></span>
+                <a href="/2016/04/29/20160429-Neural-Machine-Translation-by-jointly-learning-to-align-and-translate/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/29/20160429-Neural-Machine-Translation-by-jointly-learning-to-align-and-translate/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -287,13 +287,11 @@
       
 
       
-        <p>Human Activity Recognition and Prediction By Yun Fu<br>Chapter 6 Activity Prediction<br><a id="more"></a></p>
-<h2 id="Chapter-6-Activity-Prediction"><a href="#Chapter-6-Activity-Prediction" class="headerlink" title="Chapter 6 - Activity Prediction"></a>Chapter 6 - Activity Prediction</h2><p>  Activity Prediction与Action Recognition的区别:     Action video data arrive sequentially in action prediction。<br>  文中提出Multiple temporal scale support vector machine (MTSSVM)对action进行prediction。 MTSSVM有助于提取action中动态的和演化性的信息，并且可以根据部分观测的video对aciton进行prediction。</p>
-<p>  Related Work: 在Action Recognition问题中，常用的是Bag-of-words方法，但是该方法对于Appearance和Pose变化较大的情况表现不好，改进的方法有：<br>  1.用sematic description or attributes描述；<br>  2.用关键帧的方法。<br>  但以上都是用在Fully observe video中的方法，本文主要做的是prediction也即是对于partial observe video而言的。<br>  对于Pose或Appearance的时间演化(temporal evolutions)可以用Sequential State Models建模(类似HMM等方法)，但没有考虑这些演化与Observation ratios间的关系，就是说需要考虑Pose或Appearance的演化程度与动作进行的ratios的关系。<br>  之前有人提出Integral bag-of-words(IBoW)方法和Dynamic bag-of-words(DBoW)方法进行action prediction。他们用同类、同阶段的the mean of feature去建模，考虑到intra-class(类间) appearance variation,又用sparse coding表达Action model.<br>  本文模型考虑了信息会随着新的观测的到来而积累，并考虑label consistency，还有action dynamics at multiple scale。</p>
-<p>  Method:<br>  数据组织:首先是将视频平均分割成K段，每段长度为T/K(总长度为T)。定义progress level:$\frac tK$(t为帧数), observation ratio:$\frac tT$。<br>  Action Representations:获得interest points和trajectories然后进行聚类，用Histogram of visual words方法对entire partial video进行表达。<br>  令$D = \{x_i,y_i\}_{i=1}^N$为训练数据,<br>  其中$x_i$为第i个fully observed action video且$y_i$为对应的action label。<br>  Action prediction问题可转化为学习一个函数$f:\mathcal{X} \rightarrow \mathcal{Y}$,表示将部分观测视频$x_{(1,k)}\in\mathcal{X}$映射到Action label$y\in\mathcal{Y}(k\in{1,…,K})$<br>  本文希望学习一个discriminat function$F:\mathcal{X} \rightarrow \mathcal{Y}$用于对训练样本$(x,y)$进行打分(score),而非寻找函数$f$.<br>  $F$定义为一个线性函数$F(x_{(1,k)},y:\mathbf{w}) = \langle\mathbf{w},\Phi(x_{(1,k)},y)\rangle$,其中$\Phi(x_{(1,k)},y)$为spatio-temporal feature。<br>  预测action label可表示为:$y^\ast = {argmax}_{y\in\mathcal{Y}}F(x_{(1,k)},y;\mathbf{w^\ast}) = {argmax}_{y\in\mathcal{Y}}\langle\mathbf{w^\ast},\Phi(x_{(1,k)},y)\rangle$<br>  文中将$\mathbf{w}^T\Phi(x_{(1,k)},y)$解析为Global progress model(GPM)和Local progress model(LPM)。<br>  $\mathbf{w}^T\Phi(x_{(1,k)},y) = \mathbf{\alpha_k^T}\psi_1(x_{(1,k)},y) + \sum_{l=1}^K[\mathbf{1}(l\leq k)\cdot\mathbf{\beta_l^T}\psi_2(x_{(1,k)},y)]$<br>  Global progress model(GPM):<br>  $\mathbf{\alpha_k^T}\psi_1(x_{(1,k)},y) = \sum_{a\in\mathcal{Y}}\alpha_k^T\mathbf{1}(y=a)g(x_{(1,k)},1:k)$<br>  $\alpha_k^T$在不同程度上指定了progress level和label。<br>  Local progress model(LPM):<br>  $\mathbf{\beta_l^T}\psi_2(x_{(1,k)},y) = \sum_{a\in\mathcal{Y}}\beta_l^T\mathbf{1}(y=a)g(x_{(1,k)},l)$<br>  LPM考虑了视频的序列性。</p>
-<p>  Structured Learning Formulation:<br>  本文使用类似SSVM的方法对MTSSVM进行Formulation。约束项含义包含了:<br>  1.对每个Segment的score需要递增<br>  2.鼓励label consistency，并且允许有segment outlier等。具体参见文章。<br>  此外作者还说明约束项是Empirical Risk Minimization的上界。<br>  对于以上的Formulation，作者使用regularized bundle algorithm进行迭代近似求解。</p>
-<p>  最后实验部分，作者在UTI-Set1, UTI-Set2和BIT三个数据集上进行prediction的测试。<br>  在对GPM和LPM进行重要性实验时发现，LPM有助于获取区别性的视频段信息，同时GPM有助于获取历史信息从而补偿LPM而提高performance。</p>
-<p>  欢迎转载和提出意见和建议，转载请注明出处。<a href="http://yongyitang92.github.io" target="_blank" rel="external">http://yongyitang92.github.io</a></p>
+        <p>Neural Machine Translation by jointly learning to align and translate<br>By Dzmitry Bahdanau, KyungHyun Cho, Yoshua Bengio<br><a id="more"></a></p>
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>  Neural machine translation 希望用Neural Network完成machine translation task，最近提出的Neural machine translation大都属于Encoder-Decoder家族的一种模型，它将source sentence编码成一个固定长度的向量，而解码器可以从这个向量生成译文。但一般的Neural machine translation仅使用一个固定长度的向量来表达source sentence的所有内容，作者认为这是性能瓶颈，因此提出一种自动搜索source sentence与预测词中相关部分的模型。</p>
+<h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>  Neural machine translation企图建立和训练一个可以阅读句子和正确翻译的Large neural network，该方法的潜在问题是需要用一个固定长度的向量压缩所有必须的信息。这种方法在长句中的性能受损严重，为了解决这一问题，本文提出对Encoder-Decoder方法的拓展，使其在生成词语时，对源句子中相关信息最丰富的位置进行搜索。</p>
+<p>  从概率学角度，translation相当于对与给定的输入句子x,找到最大可能的目标句子y，即$argmax_yp(y|x)$</p>
+<p>  对于RNN Encoder-Decoder,encoder将输入序列$/mathbf{x}=(x_1,…,x_{T_x})$转化为向量$c$。常用的方法为:$h_t = f(x_t,h_{t-1})$ 和 $c = q({h_1,…,h_{T_x}})$,其中$h_t$为在时间$t$的Hidden state。<br>  对于Decoder,我们希望根据已经预测到的词${y_1,…,y_{t^’-1}}$和context vector $c$预测下一个单词y_{t^’},因此可表达成联合概率分布:$p(/mathbf{y}) = \prod_{t=1}^{T}p(y_t | {y_1,…,y_{t-1}},c)$。对于RNN，$p(y_t | {y_1,…,y_{t-1}},c) = g(y_{t-1},s_t,c)$</p>
 
       
     </div>
@@ -317,13 +315,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/04/23/20160423-Human-Activity-Recognition-and-Prediction/" rel="next" title="[20160423]Human Activity Recognition and Prediction (C-6)">
+                <i class="fa fa-chevron-left"></i> [20160423]Human Activity Recognition and Prediction (C-6)
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/04/29/20160429-Neural-Machine-Translation-by-jointly-learning-to-align-and-translate/" rel="prev" title="20160429 Neural Machine Translation by jointly learning to align and translate">
-                20160429 Neural Machine Translation by jointly learning to align and translate <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -349,8 +347,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/04/23/20160423-Human-Activity-Recognition-and-Prediction/"
-           data-title="[20160423]Human Activity Recognition and Prediction (C-6)" data-url="http://yoursite.com/2016/04/23/20160423-Human-Activity-Recognition-and-Prediction/">
+      <div class="ds-thread" data-thread-key="2016/04/29/20160429-Neural-Machine-Translation-by-jointly-learning-to-align-and-translate/"
+           data-title="20160429 Neural Machine Translation by jointly learning to align and translate" data-url="http://yoursite.com/2016/04/29/20160429-Neural-Machine-Translation-by-jointly-learning-to-align-and-translate/">
       </div>
     
   </div>
@@ -463,7 +461,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter-6-Activity-Prediction"><span class="nav-number">1.</span> <span class="nav-text">Chapter 6 - Activity Prediction</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Intro"><span class="nav-number">2.</span> <span class="nav-text">Intro</span></a></li></ol></div>
             
           </div>
         </section>
