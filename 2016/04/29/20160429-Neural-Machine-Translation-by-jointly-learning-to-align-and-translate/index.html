@@ -86,7 +86,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/04/29/20160429-Neural-Machine-Translation-by-jointly-learning-to-align-and-translate/index.html">
 <meta property="og:site_name" content="Yongyi's Blog">
 <meta property="og:description" content="Neural Machine Translation by jointly learning to align and translateBy Dzmitry Bahdanau, KyungHyun Cho, Yoshua Bengio">
-<meta property="og:updated_time" content="2016-05-11T08:23:16.995Z">
+<meta property="og:updated_time" content="2016-05-11T08:35:07.542Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20160429 Neural Machine Translation by jointly learning to align and translate">
 <meta name="twitter:description" content="Neural Machine Translation by jointly learning to align and translateBy Dzmitry Bahdanau, KyungHyun Cho, Yoshua Bengio">
@@ -291,7 +291,8 @@
 <h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>  Neural machine translation 希望用Neural Network完成machine translation task，最近提出的Neural machine translation大都属于Encoder-Decoder家族的一种模型，它将source sentence编码成一个固定长度的向量，而解码器可以从这个向量生成译文。但一般的Neural machine translation仅使用一个固定长度的向量来表达source sentence的所有内容，作者认为这是性能瓶颈，因此提出一种自动搜索source sentence与预测词中相关部分的模型。</p>
 <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>  Neural machine translation企图建立和训练一个可以阅读句子和正确翻译的Large neural network，该方法的潜在问题是需要用一个固定长度的向量压缩所有必须的信息。这种方法在长句中的性能受损严重，为了解决这一问题，本文提出对Encoder-Decoder方法的拓展，使其在生成词语时，对源句子中相关信息最丰富的位置进行搜索。</p>
 <p>  从概率学角度，translation相当于对与给定的输入句子x,找到最大可能的目标句子y，即${argmax}_yp(y|x)$</p>
-<p>  对于RNN Encoder-Decoder,encoder将输入序列$\mathbf{x}=(x_1,…,x_{T_x})$转化为向量$c$。常用的方法为:$h_t = f(x_t,h_{t-1})$ 和 $c = q(/{h_1,…,h_{T_x}/})$,其中$h_t$为在时间$t$的Hidden state。<br>  对于Decoder,我们希望根据已经预测到的词$\{y_1,…,y_{t^’-1}\}$和context vector $c$预测下一个单词$y_{t^’}$,因此可表达成联合概率分布:$p(\mathbf{y}) = \prod_{t=1}^{T}p(y_t | \{y_1,…,y_{t-1}\},c)$。对于RNN，$p(y_t | {y_1,…,y_{t-1}},c) = g(y_{t-1},s_t,c)$</p>
+<p>  对于RNN Encoder-Decoder,encoder将输入序列$\mathbf{x}=(x_1,…,x_{T_x})$转化为向量$c$。常用的方法为:$h_t = f(x_t,h_{t-1})$ 和 $c = q(\{h_1,…,h_{T_x}\})$,其中$h_t$为在时间$t$的Hidden state。<br>  对于Decoder,我们希望根据已经预测到的词$\{y_1,…,y_{t’-1}\}$和context vector $c$预测下一个单词$y_{t’}$,因此可表达成联合概率分布:$p(\mathbf{y}) = \prod_{t=1}^{T}p(y_t | \{y_1,…,y_{t-1}\},c)$。对于RNN，$p(y_t | {y_1,…,y_{t-1}},c) = g(y_{t-1},s_t,c)$</p>
+<h2 id="Learning-to-align-and-translate"><a href="#Learning-to-align-and-translate" class="headerlink" title="Learning to align and translate"></a>Learning to align and translate</h2><p>  本文提出新的Neural machine translation架构，利用Bidirectional RNN作为Encoder，并且希望Decoder在解码过程中能模拟在源句中搜索关键信息。</p>
 
       
     </div>
@@ -461,7 +462,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Intro"><span class="nav-number">2.</span> <span class="nav-text">Intro</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Intro"><span class="nav-number">2.</span> <span class="nav-text">Intro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Learning-to-align-and-translate"><span class="nav-number">3.</span> <span class="nav-text">Learning to align and translate</span></a></li></ol></div>
             
           </div>
         </section>
