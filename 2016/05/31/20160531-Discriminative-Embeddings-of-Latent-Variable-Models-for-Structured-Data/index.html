@@ -86,7 +86,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/05/31/20160531-Discriminative-Embeddings-of-Latent-Variable-Models-for-Structured-Data/index.html">
 <meta property="og:site_name" content="Yongyi's Blog">
 <meta property="og:description" content="Discriminative Embedding of Latent Variable Models for Structured DataBy Hanjun Dai, Bo Dai, Le SongGeorgia Institute of Technology">
-<meta property="og:updated_time" content="2016-05-31T14:06:31.663Z">
+<meta property="og:updated_time" content="2016-05-31T14:16:10.288Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[20160531] Discriminative Embeddings of Latent Variable Models for Structured Data">
 <meta name="twitter:description" content="Discriminative Embedding of Latent Variable Models for Structured DataBy Hanjun Dai, Bo Dai, Le SongGeorgia Institute of Technology">
@@ -291,7 +291,7 @@
 <h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>  在Sturectured data中，如trees，sequences和graphs中，常用Kernel classifiers和regressors。通常kernel function根据datatype而定义的，然后再在kernel上学习discriminative classifier。那么kernel的定义和discriminative classifier的学习是分离的。<br>  本文的想法是希望将latent variable models embed到feature spaces中，然后通过discriminative information学习这个feature space。</p>
 <h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>  对于Sturctured data，如rees，sequences和graphs的学习，我们首先需要将这些data显式或隐式地transform成向量化的表达，然后再在这些向量化的表达上面使用学习算法进行学习。Kernel方法是一种有效处理以上data的方式。<br>  但是在Structured data上使用kernel method的效果很大程度上受到kernel function设计的影响，并且当数据量大时，feature representation学习的效果也会受到影响。<br>  本文的idea是希望model each structured data point as a latent variable model，然后embed the graphical model into feature spaces and use inner product in the embedding space to define kernels(英文原句更能准确表达意思)。与直接定义feature和embedding space不同，本文通过直接minimize the empirical loss去学习feature space。<br>  本embedding algorithm运作的方式与graphical model inference procedures如mean field和belief propagation非常相似。</p>
 <h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p>  Kernels for structured data<br>  Kernel function在kernel method中扮演重要角色，每种kernel function都对应某feature space$\phi(x)$，其中kernel function可以表示为feature maps的内积形式：$k(x,x’)$。<br>  Bags of sturctures (BOS) kernel：对于structured input domain，可以通过数子结构出现的次数的方式定义kernel，如：$k(x,x’)=\sum_{s\in S}#(s\in x)#(s\in x’)$<br>  此外kernels可以利用probabilistic graphical models定义，如Fisher kernel和probability product kernel。</p>
-<h3 id="Hilbert-Space-Embedding-of-Distributions"><a href="#Hilbert-Space-Embedding-of-Distributions" class="headerlink" title="Hilbert Space Embedding of Distributions"></a>Hilbert Space Embedding of Distributions</h3><p>  Hilbert space embedding of distributions将分布映射到可能是无限维的特征空间：$\mu_{\mathbf{x}}:=\mathbb{E}_{\mathbf{x}}[\phi(X)]=\lmoustache_{\mathcal{X}}\phi(x)p(x)dx : \mathcal{P}\longmapsto\mathcal{F}$。即将分布映射到feature map的期望，也即特征空间中的某一点。一些feature map可以使得该映射为内射，意思为若两个分布不同$p(X)$和$q(X)$，它们将会映射到特征空间中两个不同的点。如Gaussian RBF kernel：$exp(-|x-x’|_2^2)$。<br>  或者可以将分布$p(X)$的injective embedding $\mu_X$看作分布的充分统计量，也即$\mu_X$可以唯一地恢复$p(X)$，任何对$p(X)$的操作可以对应$\mu_X$上的操作且作用一样。这一性质可以只通过embedding定义分布的泛函$f:\mathcal{P}\longmapsto\mathbb{R}$，也即$f(p(x))=\tilde{f}(\mu_X)$，其中$\tilde{f}:\mathcal{F}\longmapsto\mathbb{R}$。同理，该性质可以一般化为运算子$\mathcal{\tau}:\mathcal{P}\longmapsto\mathbb{R}^d : \mathcal{\tau}\circ p(x)=\mathcal{\tau}\circ \mu_X$，其中$\tilde{\mathcal{\tau}}:\mathcal{F}\longmapsto\mathbb{R}^d$。</p>
+<h3 id="Hilbert-Space-Embedding-of-Distributions"><a href="#Hilbert-Space-Embedding-of-Distributions" class="headerlink" title="Hilbert Space Embedding of Distributions"></a>Hilbert Space Embedding of Distributions</h3><p>  Hilbert space embedding of distributions将分布映射到可能是无限维的特征空间：$\mu_{\mathbf{x}}:=\mathbb{E}_{\mathbf{x}}[\phi(X)]=\lmoustache_{\mathcal{X}}\phi(x)p(x)dx : \mathcal{P}\longmapsto\mathcal{F}$。即将分布映射到feature map的期望，也即特征空间中的某一点。一些feature map可以使得该映射为内射，意思为若两个分布不同$p(X)$和$q(X)$，它们将会映射到特征空间中两个不同的点。如Gaussian RBF kernel：$exp(-||x-x’||_2^2)$。<br>  或者可以将分布$p(X)$的injective embedding $\mu_X$看作分布的充分统计量，也即$\mu_X$可以唯一地恢复$p(X)$，任何对$p(X)$的操作可以对应$\mu_X$上的操作且作用一样。这一性质可以只通过embedding定义分布的泛函$f:\mathcal{P}\longmapsto\mathbb{R}$，也即$f(p(x))=\tilde{f}(\mu_X)$，其中$\tilde{f}:\mathcal{F}\longmapsto\mathbb{R}$。同理，该性质可以一般化为运算子$\mathcal{\tau}:\mathcal{P}\longmapsto\mathbb{R}^d : \mathcal{\tau}\circ p(x)=\tilde{\mathcal{\tau}}\circ \mu_X$，其中$\tilde{\mathcal{\tau}}:\mathcal{F}\longmapsto\mathbb{R}^d$。</p>
 
       
     </div>
@@ -315,8 +315,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/23/20160423-Human-Activity-Recognition-and-Prediction/" rel="next" title="[20160423]Human Activity Recognition and Prediction (C-6)">
-                <i class="fa fa-chevron-left"></i> [20160423]Human Activity Recognition and Prediction (C-6)
+              <a href="/2016/04/29/20160429-Neural-Machine-Translation-by-jointly-learning-to-align-and-translate/" rel="next" title="20160429 Neural Machine Translation by jointly learning to align and translate">
+                <i class="fa fa-chevron-left"></i> 20160429 Neural Machine Translation by jointly learning to align and translate
               </a>
             
           </div>
@@ -393,7 +393,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -401,7 +401,7 @@
           
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">categories</span>
               
             </div>
