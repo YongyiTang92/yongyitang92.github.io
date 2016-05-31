@@ -80,16 +80,16 @@
 
 
 
-<meta name="description" content="Neural Machine Translation by jointly learning to align and translateBy Dzmitry Bahdanau, KyungHyun Cho, Yoshua Bengio">
+<meta name="description" content="Discriminative Embedding of Latent Variable Models for Structured DataBy Hanjun Dai, Bo Dai, Le SongGeorgia Institute of Technology">
 <meta property="og:type" content="article">
-<meta property="og:title" content="20160429 Neural Machine Translation by jointly learning to align and translate">
-<meta property="og:url" content="http://yoursite.com/2016/04/29/20160429-Neural-Machine-Translation-by-jointly-learning-to-align-and-translate/index.html">
+<meta property="og:title" content="[20160531] Discriminative Embeddings of Latent Variable Models for Structured Data">
+<meta property="og:url" content="http://yoursite.com/2016/05/31/20160531-Discriminative-Embeddings-of-Latent-Variable-Models-for-Structured-Data/index.html">
 <meta property="og:site_name" content="Yongyi's Blog">
-<meta property="og:description" content="Neural Machine Translation by jointly learning to align and translateBy Dzmitry Bahdanau, KyungHyun Cho, Yoshua Bengio">
-<meta property="og:updated_time" content="2016-05-13T00:58:19.119Z">
+<meta property="og:description" content="Discriminative Embedding of Latent Variable Models for Structured DataBy Hanjun Dai, Bo Dai, Le SongGeorgia Institute of Technology">
+<meta property="og:updated_time" content="2016-05-31T14:06:31.663Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="20160429 Neural Machine Translation by jointly learning to align and translate">
-<meta name="twitter:description" content="Neural Machine Translation by jointly learning to align and translateBy Dzmitry Bahdanau, KyungHyun Cho, Yoshua Bengio">
+<meta name="twitter:title" content="[20160531] Discriminative Embeddings of Latent Variable Models for Structured Data">
+<meta name="twitter:description" content="Discriminative Embedding of Latent Variable Models for Structured DataBy Hanjun Dai, Bo Dai, Le SongGeorgia Institute of Technology">
 
 
 
@@ -107,7 +107,7 @@
   };
 </script>
 
-  <title> 20160429 Neural Machine Translation by jointly learning to align and translate | Yongyi's Blog </title>
+  <title> [20160531] Discriminative Embeddings of Latent Variable Models for Structured Data | Yongyi's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -221,7 +221,7 @@
             
             
               
-                20160429 Neural Machine Translation by jointly learning to align and translate
+                [20160531] Discriminative Embeddings of Latent Variable Models for Structured Data
               
             
           </h1>
@@ -233,8 +233,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-04-29T14:26:07+08:00" content="2016-04-29">
-              2016-04-29
+            <time itemprop="dateCreated" datetime="2016-05-31T17:25:47+08:00" content="2016-05-31">
+              2016-05-31
             </time>
           </span>
 
@@ -247,8 +247,8 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Neural-Network/" itemprop="url" rel="index">
-                    <span itemprop="name">Neural Network</span>
+                  <a href="/categories/Computer-Vision/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer Vision</span>
                   </a>
                 </span>
 
@@ -263,8 +263,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/29/20160429-Neural-Machine-Translation-by-jointly-learning-to-align-and-translate/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/29/20160429-Neural-Machine-Translation-by-jointly-learning-to-align-and-translate/" itemprop="commentsCount"></span>
+                <a href="/2016/05/31/20160531-Discriminative-Embeddings-of-Latent-Variable-Models-for-Structured-Data/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/31/20160531-Discriminative-Embeddings-of-Latent-Variable-Models-for-Structured-Data/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -287,13 +287,11 @@
       
 
       
-        <p>Neural Machine Translation by jointly learning to align and translate<br>By Dzmitry Bahdanau, KyungHyun Cho, Yoshua Bengio<br><a id="more"></a></p>
-<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>  Neural machine translation 希望用Neural Network完成machine translation task，最近提出的Neural machine translation大都属于Encoder-Decoder家族的一种模型，它将source sentence编码成一个固定长度的向量，而解码器可以从这个向量生成译文。但一般的Neural machine translation仅使用一个固定长度的向量来表达source sentence的所有内容，作者认为这是性能瓶颈，因此提出一种自动搜索source sentence与预测词中相关部分的模型。</p>
-<h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>  Neural machine translation企图建立和训练一个可以阅读句子和正确翻译的Large neural network，该方法的潜在问题是需要用一个固定长度的向量压缩所有必须的信息。这种方法在长句中的性能受损严重，为了解决这一问题，本文提出对Encoder-Decoder方法的拓展，使其在生成词语时，对源句子中相关信息最丰富的位置进行搜索。</p>
-<p>  从概率学角度，translation相当于对与给定的输入句子x,找到最大可能的目标句子y，即${argmax}_yp(y|x)$。</p>
-<p>  对于RNN Encoder-Decoder,encoder将输入序列$\mathbf{x}=(x_1,…,x_{T_x})$转化为向量$c$。常用的方法为：$h_t = f(x_t,h_{t-1})$ 和 $c = q(\{h_1,…,h_{T_x}\})$，其中$h_t$为在时间$t$的Hidden state。<br>  对于Decoder，我们希望根据已经预测到的词$\{y_1,…,y_{t’-1}\}$和context vector $c$预测下一个单词$y_{t’}$,因此可表达成联合概率分布：$p(\mathbf{y}) = \prod_{t=1}^{T}p(y_t | \{y_1,…,y_{t-1}\},c)$。对于RNN，$p(y_t | {y_1,…,y_{t-1}},c) = g(y_{t-1},s_t,c)$。</p>
-<h2 id="Learning-to-align-and-translate"><a href="#Learning-to-align-and-translate" class="headerlink" title="Learning to align and translate"></a>Learning to align and translate</h2><p>  本文提出新的Neural machine translation架构，利用Bidirectional RNN作为Encoder，并且希望Decoder在解码过程中能模拟在源句中搜索关键信息。<br>  在新的模型中，定义条件概率为：$p(y_i | {y_1,…,y_{i-1}},\mathbf{x}) = g(y_{t-1},s_i,c)$，其中$s_i=f(s_{i-1},y_{i-1},c_i)$为RNN的Hidden state。<br>  Context vector $c_i$需要根据一系列的annotations$(h_1,…,h_{T_x})$来构建，而annotations需要通过encoder对输入序列进行映射而获得。$h_i$相当于获得了这个输入序列中第$i$个词在整个序列上的影响程度。<br>  Context vector $c_i$由这些annotations的加权和获得：$c_i=\sum_{j=1}^{T_x}\alpha_{ij}h_j$，其中权值$\alpha_{ij}$为$\alpha_{ij}=\frac{exp(e_{ij})}{\sum_{k=1}^{T_x}exp(e{ik})}$，$e_{ij}=a(s_{i-1},h_j)$为alignment model来对输入位置为j的词和输出位置为i的词进行匹配打分，且设a为一个feedforward neural network。$\alpha_{ij}$相当于从$x_j$到$y_i$的概率。Annotation的加权和可以看作是expected annotaion，也即$c_i$。<br>  在Encoder方面，使用的是双向RNN，将前向的hidden state和后向的hidden state拼接在一起形成一个长向量$h_j$。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>  Attention model在NLP上提出后，许多应用都参考这个模型进行尝试，比如说visual attention，还有各种各样的。在自己的研究中发现这个模型的限制有可能在于RNN的使用上，因为目前大部分RNN结构都是属于顺序结构的RNN，那么对于一些不具有顺序结构的内容有没有办法找出一种适应性的context encoding的方法呢，如果有的话这个模型就可以进一步拓展到具有任意结构的内容上面了。</p>
+        <p>Discriminative Embedding of Latent Variable Models for Structured Data<br>By Hanjun Dai, Bo Dai, Le Song<br>Georgia Institute of Technology<br><a id="more"></a></p>
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>  在Sturectured data中，如trees，sequences和graphs中，常用Kernel classifiers和regressors。通常kernel function根据datatype而定义的，然后再在kernel上学习discriminative classifier。那么kernel的定义和discriminative classifier的学习是分离的。<br>  本文的想法是希望将latent variable models embed到feature spaces中，然后通过discriminative information学习这个feature space。</p>
+<h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>  对于Sturctured data，如rees，sequences和graphs的学习，我们首先需要将这些data显式或隐式地transform成向量化的表达，然后再在这些向量化的表达上面使用学习算法进行学习。Kernel方法是一种有效处理以上data的方式。<br>  但是在Structured data上使用kernel method的效果很大程度上受到kernel function设计的影响，并且当数据量大时，feature representation学习的效果也会受到影响。<br>  本文的idea是希望model each structured data point as a latent variable model，然后embed the graphical model into feature spaces and use inner product in the embedding space to define kernels(英文原句更能准确表达意思)。与直接定义feature和embedding space不同，本文通过直接minimize the empirical loss去学习feature space。<br>  本embedding algorithm运作的方式与graphical model inference procedures如mean field和belief propagation非常相似。</p>
+<h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p>  Kernels for structured data<br>  Kernel function在kernel method中扮演重要角色，每种kernel function都对应某feature space$\phi(x)$，其中kernel function可以表示为feature maps的内积形式：$k(x,x’)$。<br>  Bags of sturctures (BOS) kernel：对于structured input domain，可以通过数子结构出现的次数的方式定义kernel，如：$k(x,x’)=\sum_{s\in S}#(s\in x)#(s\in x’)$<br>  此外kernels可以利用probabilistic graphical models定义，如Fisher kernel和probability product kernel。</p>
+<h3 id="Hilbert-Space-Embedding-of-Distributions"><a href="#Hilbert-Space-Embedding-of-Distributions" class="headerlink" title="Hilbert Space Embedding of Distributions"></a>Hilbert Space Embedding of Distributions</h3><p>  Hilbert space embedding of distributions将分布映射到可能是无限维的特征空间：$\mu_{\mathbf{x}}:=\mathbb{E}_{\mathbf{x}}[\phi(X)]=\lmoustache_{\mathcal{X}}\phi(x)p(x)dx : \mathcal{P}\longmapsto\mathcal{F}$。即将分布映射到feature map的期望，也即特征空间中的某一点。一些feature map可以使得该映射为内射，意思为若两个分布不同$p(X)$和$q(X)$，它们将会映射到特征空间中两个不同的点。如Gaussian RBF kernel：$exp(-|x-x’|_2^2)$。<br>  或者可以将分布$p(X)$的injective embedding $\mu_X$看作分布的充分统计量，也即$\mu_X$可以唯一地恢复$p(X)$，任何对$p(X)$的操作可以对应$\mu_X$上的操作且作用一样。这一性质可以只通过embedding定义分布的泛函$f:\mathcal{P}\longmapsto\mathbb{R}$，也即$f(p(x))=\tilde{f}(\mu_X)$，其中$\tilde{f}:\mathcal{F}\longmapsto\mathbb{R}$。同理，该性质可以一般化为运算子$\mathcal{\tau}:\mathcal{P}\longmapsto\mathbb{R}^d : \mathcal{\tau}\circ p(x)=\mathcal{\tau}\circ \mu_X$，其中$\tilde{\mathcal{\tau}}:\mathcal{F}\longmapsto\mathbb{R}^d$。</p>
 
       
     </div>
@@ -349,8 +347,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/04/29/20160429-Neural-Machine-Translation-by-jointly-learning-to-align-and-translate/"
-           data-title="20160429 Neural Machine Translation by jointly learning to align and translate" data-url="http://yoursite.com/2016/04/29/20160429-Neural-Machine-Translation-by-jointly-learning-to-align-and-translate/">
+      <div class="ds-thread" data-thread-key="2016/05/31/20160531-Discriminative-Embeddings-of-Latent-Variable-Models-for-Structured-Data/"
+           data-title="[20160531] Discriminative Embeddings of Latent Variable Models for Structured Data" data-url="http://yoursite.com/2016/05/31/20160531-Discriminative-Embeddings-of-Latent-Variable-Models-for-Structured-Data/">
       </div>
     
   </div>
@@ -403,7 +401,7 @@
           
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">1</span>
                 <span class="site-state-item-name">categories</span>
               
             </div>
@@ -463,7 +461,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Intro"><span class="nav-number">2.</span> <span class="nav-text">Intro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Learning-to-align-and-translate"><span class="nav-number">3.</span> <span class="nav-text">Learning to align and translate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Intro"><span class="nav-number">2.</span> <span class="nav-text">Intro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Background"><span class="nav-number">3.</span> <span class="nav-text">Background</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hilbert-Space-Embedding-of-Distributions"><span class="nav-number">3.1.</span> <span class="nav-text">Hilbert Space Embedding of Distributions</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
