@@ -86,7 +86,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/05/31/20160531-Discriminative-Embeddings-of-Latent-Variable-Models-for-Structured-Data/index.html">
 <meta property="og:site_name" content="Yongyi's Blog">
 <meta property="og:description" content="Discriminative Embedding of Latent Variable Models for Structured DataBy Hanjun Dai, Bo Dai, Le SongGeorgia Institute of Technology">
-<meta property="og:updated_time" content="2016-06-22T08:22:46.923Z">
+<meta property="og:updated_time" content="2016-06-22T09:32:18.834Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[20160531] Discriminative Embeddings of Latent Variable Models for Structured Data">
 <meta name="twitter:description" content="Discriminative Embedding of Latent Variable Models for Structured DataBy Hanjun Dai, Bo Dai, Le SongGeorgia Institute of Technology">
@@ -293,7 +293,15 @@
 <h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p>  Kernels for structured data<br>  Kernel function在kernel method中扮演重要角色，每种kernel function都对应某feature space$\phi(x)$，其中kernel function可以表示为feature maps的内积形式：$k(x,x’)$。<br>  Bags of sturctures (BOS) kernel：对于structured input domain，可以通过数子结构出现的次数的方式定义kernel，如：$k(x,x’)=\sum_{s\in S}#(s\in x)#(s\in x’)$<br>  此外kernels可以利用probabilistic graphical models定义，如Fisher kernel和probability product kernel。</p>
 <h3 id="Hilbert-Space-Embedding-of-Distributions"><a href="#Hilbert-Space-Embedding-of-Distributions" class="headerlink" title="Hilbert Space Embedding of Distributions"></a>Hilbert Space Embedding of Distributions</h3><p>  Hilbert space embedding of distributions将分布映射到可能是无限维的特征空间：$\mu_{\mathbf{x}}:=\mathbb{E}_{\mathbf{x}}[\phi(X)]=\lmoustache_{\mathcal{X}}\phi(x)p(x)dx : \mathcal{P}\longmapsto\mathcal{F}$。即将分布映射到feature map的期望，也即特征空间中的某一点。一些feature map可以使得该映射为内射，意思为若两个分布不同$p(X)$和$q(X)$，它们将会映射到特征空间中两个不同的点。如Gaussian RBF kernel：$exp(-||x-x’||_2^2)$。<br>  或者可以将分布$p(X)$的injective embedding $\mu_X$看作分布的充分统计量，也即$\mu_X$可以唯一地恢复$p(X)$，任何对$p(X)$的操作可以对应$\mu_X$上的操作且作用一样。这一性质可以只通过embedding定义分布的泛函$f:\mathcal{P}\longmapsto\mathbb{R}$，也即$f(p(x))=\tilde{f}(\mu_X)$，其中$\tilde{f}:\mathcal{F}\longmapsto\mathbb{R}$。同理，该性质可以一般化为运算子$\mathcal{\tau}:\mathcal{P}\longmapsto\mathbb{R}^d : \mathcal{\tau}\circ p(x)=\tilde{\mathcal{\tau}}\circ \mu_X$，其中$\tilde{\mathcal{\tau}}:\mathcal{F}\longmapsto\mathbb{R}^d$。</p>
 <h2 id="Model-for-a-Structured-Data-Point"><a href="#Model-for-a-Structured-Data-Point" class="headerlink" title="Model for a Structured Data Point"></a>Model for a Structured Data Point</h2><p>  不失一般性，设每一structured data point $\mathcal{X}$为一个graph，其结点为$\mathcal{V}={1,…,V}$，边为$\varepsilon$。记$x_i$为i结点的值，注意到结点label和整个data point的label是不同的，如原子与分子的关系。我们对图中每个结点的label用$\mathbf{X}_i$来建模，并将其与附加的hidden variable $\mathbf{H}_i$ 关联起来，并根据这些变量定义 pairwise Markov random field。$p(\{\mathbf{H}_i\},\{\mathbf{X}_i\})\propto \prod_{i\in $\mathcal{V}}\Phi(\mathbf{H}_i,\mathbf{X}_i)\prod_{(i,j)\in $\varepsilon}\Psi(\mathbf{H}_i,\mathbf{H}_j)$，$\Phi,\Psi$分别为非负的node potentials和edge potentials。</p>
-<h2 id="Embedding-Latent-Variable-Models"><a href="#Embedding-Latent-Variable-Models" class="headerlink" title="Embedding Latent Variable Models"></a>Embedding Latent Variable Models</h2><p>  利用feature map $\phi(\mathbf{H}_i)$对hidden variable的后验分布$p(\mathbf{H}_i|\{x_i\})$做embed，此时，$\phi(\mathbf{H}_i)$和$p(\mathbf{H}_i|\{x_i\})$的参数还没有固定，我们后面会通过监督信号将其学习获得。先设$\phi(\mathbf{H}_i)\in\mathbb{R}^d$，$d$可通过cross-validation确定，然而，计算该embedding对于一般的graph来说非常困难，因为在计算inference的时候需要对除了$\mathbf{H}_i$之外的变量进行积分，也即$p(\mathbf{H}_i|\{x_i\})=\lmoustache_{\mathcal{H}^{V-1}}p(\mathbf{H}_i,\{h_j\}|\{x_j\})\prod_{j\in V\setminus i}dh_j$。对于tree，可以用message passing算法进行exact inference，但当graphical model为一般情况时，需要用approximate inference的方法如mean field和loopy belief propagation。</p>
+<h2 id="Embedding-Latent-Variable-Models"><a href="#Embedding-Latent-Variable-Models" class="headerlink" title="Embedding Latent Variable Models"></a>Embedding Latent Variable Models</h2><p>  利用feature map $\phi(\mathbf{H}_i)$对hidden variable的后验分布$p(\mathbf{H}_i|\{x_i\})$做embed，此时，$\phi(\mathbf{H}_i)$和$p(\mathbf{H}_i|\{x_i\})$的参数还没有固定，我们后面会通过监督信号将其学习获得。先设$\phi(\mathbf{H}_i)\in\mathbb{R}^d$，$d$可通过cross-validation确定，然而，计算该embedding对于一般的graph来说非常困难，因为在计算inference的时候需要对除了$\mathbf{H}_i$之外的变量进行积分，也即$p(\mathbf{H}_i|\{x_i\})=\lmoustache_{\mathcal{H}^{V-1}}p(\mathbf{H}_i,\{h_j\}|\{x_j\})\prod_{j\in \mathcal{V}\setminus i}dh_j$。对于tree，可以用message passing算法进行exact inference，但当graphical model为一般情况时，需要用approximate inference的方法如mean field和loopy belief propagation。</p>
+<h3 id="Embedding-Mean-Field-Inference"><a href="#Embedding-Mean-Field-Inference" class="headerlink" title="Embedding Mean-Field Inference"></a>Embedding Mean-Field Inference</h3><p>  传统的mean field希望用独立的元组分布的乘积去近似$p(\mathbf{H}_i|\{x_i\})$，即$p(\mathbf{H}_i|\{x_i\})=\prod_{i\in V}q_i(h_i)$，其中$q_i()h_i\geqslant 0, \lmoustache_{\mathcal{H}}q_i(h_i)dh_i=1$。这些$q_i$可以通过最小化以下的variational free energy获得：${min}_{q_1,…q_d}\lmoustache_{\mathcal{H}^d}\prid_{i\in \mathcal{V}}q_i(h_i)log{\frac{\prod_{i\in \mathcal{V}}q_i(h_i)}{p(\{h_i\}|\{x_i\})}}\prod_{i\in \mathcal{V}}dh_i$。该优化问题的解需要满足如下的 fixed point equation：对所有$i\in \mathcal{V}, \log q_i(h_i)=c_i+\log(\Phi(h_i,x_i))+\sum_{j\in N(i)}\lmoustache_{\mathcal{H}}q_j(h_j)\log (Psi(h_i,h_j)\Phi(h_j,x_j))dh_j$，意味着$q_i(h_i)$是其邻域边际分布${\{q_j\}}_{j\in N(i)}$的泛函，也即$q_i(h_i)=f(h_i,x_i,{\{q_j\}}_{j\in N(i)},{\{x_j\}}_{j\in N(i)})$。若对每个边际分布$q_i$有内射embedding：$\widetilde{\mu_i}=\lmoustache_{\mathcal{H}}\phi(h_i)q_i(h_i)dh_i$，则可以通过embedding来表达该fixed point equation：$\widetilde{\mu_i}=\widetilde{\tau}\circ(x_i,{\{q_j\}}_{j\in N(i)},{\{x_j\}}_{j\in N(i)})$。对该embedded mean field equation，$f$和$\widetilde{\tau}$与$\Psi$和$\Phi$之间有复杂的非线性关系，我们可以用neural network对该式参数化：$\widetilde{\mu_i}=\sigma(W_1 x_i+W_2 \sum_{j\in N(i)}\widetilde{\mu_j}+W_3 \sum_{j\in N(i)}x_j), \sigma(\bullet):=max\{0,\bullet\}$</p>
+<h4 id="Algorithm-1-Embedding-Mean-Field"><a href="#Algorithm-1-Embedding-Mean-Field" class="headerlink" title="Algorithm 1. Embedding Mean Field"></a>Algorithm 1. Embedding Mean Field</h4><p>  1.Input: parameter W in $\widetilde{\tau}$<br>  2.Initialize $\widetilde{\mu_i}^{(0)}=\mathbf(0), for all i\in \mathcal{V}$<br>  3.for $t=1$ to $T$ do</p>
+<ol>
+<li>for $i\in \mathcal{v}$ do</li>
+<li>$l_i=\sum{j\in N(i)}\widetilde{\mu_i}^(t-1), u_i=\sum_{j\in N(i)}x_j$</li>
+<li>$\widetilde{\mu_i}^(t)=\sigma(W_1 x_i+W_2 l_i+W_3 u_i)$</li>
+<li>end for<br>8.end for {fixed point equation update}<br>9.return${\{\widetilde{\mu_i}^(T)\}}_{i\in V}$</li>
+</ol>
 
       
     </div>
@@ -324,6 +332,10 @@
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/04/20170104-Structual-RNN-Deep-Learning-on-Spatio-Temporal-Graphs/" rel="prev" title="20170104 Structual-RNN Deep Learning on Spatio-Temporal Graphs">
+                20170104 Structual-RNN Deep Learning on Spatio-Temporal Graphs <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -395,7 +407,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/">
-              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-count">4</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -463,7 +475,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Intro"><span class="nav-number">2.</span> <span class="nav-text">Intro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Background"><span class="nav-number">3.</span> <span class="nav-text">Background</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hilbert-Space-Embedding-of-Distributions"><span class="nav-number">3.1.</span> <span class="nav-text">Hilbert Space Embedding of Distributions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-for-a-Structured-Data-Point"><span class="nav-number">4.</span> <span class="nav-text">Model for a Structured Data Point</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Embedding-Latent-Variable-Models"><span class="nav-number">5.</span> <span class="nav-text">Embedding Latent Variable Models</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Intro"><span class="nav-number">2.</span> <span class="nav-text">Intro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Background"><span class="nav-number">3.</span> <span class="nav-text">Background</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hilbert-Space-Embedding-of-Distributions"><span class="nav-number">3.1.</span> <span class="nav-text">Hilbert Space Embedding of Distributions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-for-a-Structured-Data-Point"><span class="nav-number">4.</span> <span class="nav-text">Model for a Structured Data Point</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Embedding-Latent-Variable-Models"><span class="nav-number">5.</span> <span class="nav-text">Embedding Latent Variable Models</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Embedding-Mean-Field-Inference"><span class="nav-number">5.1.</span> <span class="nav-text">Embedding Mean-Field Inference</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Algorithm-1-Embedding-Mean-Field"><span class="nav-number">5.1.1.</span> <span class="nav-text">Algorithm 1. Embedding Mean Field</span></a></li></ol></li></ol></li></ol></div>
             
           </div>
         </section>
@@ -482,7 +494,7 @@
         <div class="copyright" >
   
   &copy; 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
