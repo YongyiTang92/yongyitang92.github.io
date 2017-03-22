@@ -80,16 +80,18 @@
 
 
 
-<meta name="description" content="这篇文章是一篇新的与Collective activity有关的文章，2016年11月挂在arxiv上。作者有大牛Silvio Saverese这篇文章主要贡献在于提出了一个真正的end-to-end的框架，把多人检测和群体行为识别做在了一起，这个也是我们想到要做的，不料被先做出来了。文章主要用的的是FCN做detection个recognition的特征提取，主要架构是detection和基于r">
+<meta name="description" content="这篇文章是一篇新的与Collective activity有关的文章，2016年11月挂在arxiv上然而最近才看到。作者有大牛Silvio Saverese。这篇文章主要贡献在于提出了一个真正的end-to-end的框架，把多人检测和群体行为识别做在了一起，这个也是我们想到要做的，不料被先做出来了。文章主要用的的是FCN做detection个recognition的特征提取，主要架构是detec">
 <meta property="og:type" content="article">
 <meta property="og:title" content="20170322 [CA] Social Scene Understanding End-to-End Multi-Person Action Localization adn Collective acitivty">
 <meta property="og:url" content="http://yoursite.com/2017/03/22/20170322-CA-Social-Scene-Understanding-End-to-End-Multi-Person-Action-Localization-adn-Collective-acitivty/index.html">
 <meta property="og:site_name" content="Yongyi's Blog">
-<meta property="og:description" content="这篇文章是一篇新的与Collective activity有关的文章，2016年11月挂在arxiv上。作者有大牛Silvio Saverese这篇文章主要贡献在于提出了一个真正的end-to-end的框架，把多人检测和群体行为识别做在了一起，这个也是我们想到要做的，不料被先做出来了。文章主要用的的是FCN做detection个recognition的特征提取，主要架构是detection和基于r">
-<meta property="og:updated_time" content="2017-03-22T07:56:04.123Z">
+<meta property="og:description" content="这篇文章是一篇新的与Collective activity有关的文章，2016年11月挂在arxiv上然而最近才看到。作者有大牛Silvio Saverese。这篇文章主要贡献在于提出了一个真正的end-to-end的框架，把多人检测和群体行为识别做在了一起，这个也是我们想到要做的，不料被先做出来了。文章主要用的的是FCN做detection个recognition的特征提取，主要架构是detec">
+<meta property="og:image" content="http://yoursite.com/images/20170322/image01.png">
+<meta property="og:updated_time" content="2017-03-22T08:43:59.837Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="20170322 [CA] Social Scene Understanding End-to-End Multi-Person Action Localization adn Collective acitivty">
-<meta name="twitter:description" content="这篇文章是一篇新的与Collective activity有关的文章，2016年11月挂在arxiv上。作者有大牛Silvio Saverese这篇文章主要贡献在于提出了一个真正的end-to-end的框架，把多人检测和群体行为识别做在了一起，这个也是我们想到要做的，不料被先做出来了。文章主要用的的是FCN做detection个recognition的特征提取，主要架构是detection和基于r">
+<meta name="twitter:description" content="这篇文章是一篇新的与Collective activity有关的文章，2016年11月挂在arxiv上然而最近才看到。作者有大牛Silvio Saverese。这篇文章主要贡献在于提出了一个真正的end-to-end的框架，把多人检测和群体行为识别做在了一起，这个也是我们想到要做的，不料被先做出来了。文章主要用的的是FCN做detection个recognition的特征提取，主要架构是detec">
+<meta name="twitter:image" content="http://yoursite.com/images/20170322/image01.png">
 
 
 
@@ -268,7 +270,8 @@
       
 
       
-        <p>这篇文章是一篇新的与Collective activity有关的文章，2016年11月挂在arxiv上。作者有大牛Silvio Saverese<br>这篇文章主要贡献在于提出了一个真正的end-to-end的框架，把多人检测和群体行为识别做在了一起，这个也是我们想到要做的，不料被先做出来了。<br>文章主要用的的是FCN做detection个recognition的特征提取，主要架构是detection和基于rnn的recognition。此外，本文对单帧检测人之后在视频中matching的方法，虽然方法比较简单，但是个人觉得是一个值得思考的问题。</p>
+        <p>这篇文章是一篇新的与Collective activity有关的文章，2016年11月挂在arxiv上然而最近才看到。作者有大牛Silvio Saverese。<br>这篇文章主要贡献在于提出了一个真正的end-to-end的框架，把多人检测和群体行为识别做在了一起，这个也是我们想到要做的，不料被先做出来了。<br>文章主要用的的是FCN做detection个recognition的特征提取，主要架构是detection和基于rnn的recognition。此外，本文对单帧检测人之后在视频中matching的方法，虽然方法比较简单，但是个人觉得是一个值得思考的问题。<br><a id="more"></a></p>
+<h2 id="Overview："><a href="#Overview：" class="headerlink" title="Overview："></a>Overview：</h2><p>文章模型的主体架构如下图<br><img src="/images/20170322/image01.png" alt=""><br>对于第t帧，利用FCN进行特征提取获得$\mathbf(F^t)$的基于每个像素的特征表达，另外还可以看出在这个过程中用了类似金字塔式的多个scale获取特征的方式。<br>获得基于每个像素的特征$\mathbf(F^t)$后，再利用DFCN去回归bbox位置和分类。文中作者提出了用MRF的方法去回归最终的预测bbox而不是用传统的非极大值抑制的方法。原因可能是由于用到的是pixel-wise detection的方式而不是类似FasterRCNN的基于RoI的方式，所以NMS在这并不理想。<br>获得预测的bbo$\mathbf(b^t)$后，可以根据$\mathbf(b^t)$找到在$\mathbf(F^t)$中对应的特征，再利用RoI pooling的方法计算每个box的特征$\mathbf(f^t_n)$，最后通过全连接层获得embed表达$\mathbf(e^t_n)$。<br>获得$\mathbf(e^t_n)$之后就可以用RNN去构造一个时序模型了，问题是，由于detection是基于单帧来做的，怎么把连续帧属于同一个人的信息连接起来？作者提出了三种方法。<br>1.boxes方法：就是基于box坐标，算到一个两帧之间距离最小的box，认为这两个box就是同一个object。<br>2.embed方法: 同样想法，只是box的距离变成了$\mathbf(e^t_n)$和$\mathbf(e^{t-1}_n)$之间的距离。<br>3.embed-soft方法: 其实类似与attention的方法，就是object n和其他所有的都算一个权重，然后按照权重重新构造上一时刻的输出作为当前时刻输入$h^{t-1}=\sum_mw^t_{nm}h_m^{t-1}$,然后再放入RNN。<br>最后的loss部分除了有之前detection的loss和每个框的activity分类的loss之外，还有根据RNN获得的输出每个人再算一个activity的loss和全局特征的分类loss。</p>
 
       
     </div>
@@ -438,7 +441,7 @@
               
             
             
-              <p class="post-toc-empty">This post does not have a Table of Contents</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Overview："><span class="nav-number">1.</span> <span class="nav-text">Overview：</span></a></li></ol></div>
             
           </div>
         </section>
