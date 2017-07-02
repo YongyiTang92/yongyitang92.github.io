@@ -80,16 +80,16 @@
 
 
 
-<meta name="description" content="Neural Machine Translation by jointly learning to align and translateBy Dzmitry Bahdanau, KyungHyun Cho, Yoshua Bengio">
+<meta name="description" content="生成对抗网络(Generative Adversarial Nets) 作为生成模型的一种，从2013年提出以来就在CV界大放异彩，各种玩法层出不穷。本文旨在了解GAN的进展的同时针对文章中具体实现的方法进行琢磨，希望能在阅读文章的过程中找到训练GAN的有效的方法或者Trick，具体Code基于Pytorch，并不定时更新。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="20160429 Neural Machine Translation by jointly learning to align and translate">
-<meta property="og:url" content="http://yoursite.com/2016/04/29/20160429-Neural-Machine-Translation-by-jointly-learning-to-align-and-translate/index.html">
+<meta property="og:title" content="20170627-GAN笔记">
+<meta property="og:url" content="http://yoursite.com/2017/06/27/20170627-GAN笔记/index.html">
 <meta property="og:site_name" content="Yongyi&#39;s Blog">
-<meta property="og:description" content="Neural Machine Translation by jointly learning to align and translateBy Dzmitry Bahdanau, KyungHyun Cho, Yoshua Bengio">
-<meta property="og:updated_time" content="2016-05-31T14:13:01.000Z">
+<meta property="og:description" content="生成对抗网络(Generative Adversarial Nets) 作为生成模型的一种，从2013年提出以来就在CV界大放异彩，各种玩法层出不穷。本文旨在了解GAN的进展的同时针对文章中具体实现的方法进行琢磨，希望能在阅读文章的过程中找到训练GAN的有效的方法或者Trick，具体Code基于Pytorch，并不定时更新。">
+<meta property="og:updated_time" content="2017-06-30T02:26:55.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="20160429 Neural Machine Translation by jointly learning to align and translate">
-<meta name="twitter:description" content="Neural Machine Translation by jointly learning to align and translateBy Dzmitry Bahdanau, KyungHyun Cho, Yoshua Bengio">
+<meta name="twitter:title" content="20170627-GAN笔记">
+<meta name="twitter:description" content="生成对抗网络(Generative Adversarial Nets) 作为生成模型的一种，从2013年提出以来就在CV界大放异彩，各种玩法层出不穷。本文旨在了解GAN的进展的同时针对文章中具体实现的方法进行琢磨，希望能在阅读文章的过程中找到训练GAN的有效的方法或者Trick，具体Code基于Pytorch，并不定时更新。">
 
 
 
@@ -107,7 +107,7 @@
   };
 </script>
 
-  <title> 20160429 Neural Machine Translation by jointly learning to align and translate | Yongyi's Blog </title>
+  <title> 20170627-GAN笔记 | Yongyi's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -221,7 +221,7 @@
             
             
               
-                20160429 Neural Machine Translation by jointly learning to align and translate
+                20170627-GAN笔记
               
             
           </h1>
@@ -233,8 +233,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-04-29T14:26:07+08:00" content="2016-04-29">
-              2016-04-29
+            <time itemprop="dateCreated" datetime="2017-06-27T15:40:07+08:00" content="2017-06-27">
+              2017-06-27
             </time>
           </span>
 
@@ -247,8 +247,8 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Neural-Network/" itemprop="url" rel="index">
-                    <span itemprop="name">Neural Network</span>
+                  <a href="/categories/Computer-Vision/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer Vision</span>
                   </a>
                 </span>
 
@@ -263,8 +263,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/29/20160429-Neural-Machine-Translation-by-jointly-learning-to-align-and-translate/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/29/20160429-Neural-Machine-Translation-by-jointly-learning-to-align-and-translate/" itemprop="commentsCount"></span>
+                <a href="/2017/06/27/20170627-GAN笔记/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/06/27/20170627-GAN笔记/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -287,13 +287,17 @@
       
 
       
-        <p>Neural Machine Translation by jointly learning to align and translate<br>By Dzmitry Bahdanau, KyungHyun Cho, Yoshua Bengio<br><a id="more"></a></p>
-<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>  Neural machine translation 希望用Neural Network完成machine translation task，最近提出的Neural machine translation大都属于Encoder-Decoder家族的一种模型，它将source sentence编码成一个固定长度的向量，而解码器可以从这个向量生成译文。但一般的Neural machine translation仅使用一个固定长度的向量来表达source sentence的所有内容，作者认为这是性能瓶颈，因此提出一种自动搜索source sentence与预测词中相关部分的模型。</p>
-<h2 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h2><p>  Neural machine translation企图建立和训练一个可以阅读句子和正确翻译的Large neural network，该方法的潜在问题是需要用一个固定长度的向量压缩所有必须的信息。这种方法在长句中的性能受损严重，为了解决这一问题，本文提出对Encoder-Decoder方法的拓展，使其在生成词语时，对源句子中相关信息最丰富的位置进行搜索。</p>
-<p>  从概率学角度，translation相当于对与给定的输入句子x,找到最大可能的目标句子y，即${argmax}_yp(y|x)$。</p>
-<p>  对于RNN Encoder-Decoder,encoder将输入序列$\mathbf{x}=(x_1,…,x_{T_x})$转化为向量$c$。常用的方法为：$h_t = f(x_t,h_{t-1})$ 和 $c = q(\{h_1,…,h_{T_x}\})$，其中$h_t$为在时间$t$的Hidden state。<br>  对于Decoder，我们希望根据已经预测到的词$\{y_1,…,y_{t’-1}\}$和context vector $c$预测下一个单词$y_{t’}$,因此可表达成联合概率分布：$p(\mathbf{y}) = \prod_{t=1}^{T}p(y_t | \{y_1,…,y_{t-1}\},c)$。对于RNN，$p(y_t | {y_1,…,y_{t-1}},c) = g(y_{t-1},s_t,c)$。</p>
-<h2 id="Learning-to-align-and-translate"><a href="#Learning-to-align-and-translate" class="headerlink" title="Learning to align and translate"></a>Learning to align and translate</h2><p>  本文提出新的Neural machine translation架构，利用Bidirectional RNN作为Encoder，并且希望Decoder在解码过程中能模拟在源句中搜索关键信息。<br>  在新的模型中，定义条件概率为：$p(y_i | {y_1,…,y_{i-1}},\mathbf{x}) = g(y_{t-1},s_i,c)$，其中$s_i=f(s_{i-1},y_{i-1},c_i)$为RNN的Hidden state。<br>  Context vector $c_i$需要根据一系列的annotations$(h_1,…,h_{T_x})$来构建，而annotations需要通过encoder对输入序列进行映射而获得。$h_i$相当于获得了这个输入序列中第$i$个词在整个序列上的影响程度。<br>  Context vector $c_i$由这些annotations的加权和获得：$c_i=\sum_{j=1}^{T_x}\alpha_{ij}h_j$，其中权值$\alpha_{ij}$为$\alpha_{ij}=\frac{exp(e_{ij})}{\sum_{k=1}^{T_x}exp(e{ik})}$，$e_{ij}=a(s_{i-1},h_j)$为alignment model来对输入位置为j的词和输出位置为i的词进行匹配打分，且设a为一个feedforward neural network。$\alpha_{ij}$相当于从$x_j$到$y_i$的概率。Annotation的加权和可以看作是expected annotaion，也即$c_i$。<br>  在Encoder方面，使用的是双向RNN，将前向的hidden state和后向的hidden state拼接在一起形成一个长向量$h_j$。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>  Attention model在NLP上提出后，许多应用都参考这个模型进行尝试，比如说visual attention，还有各种各样的。在自己的研究中发现这个模型的限制有可能在于RNN的使用上，因为目前大部分RNN结构都是属于顺序结构的RNN，那么对于一些不具有顺序结构的内容有没有办法找出一种适应性的context encoding的方法呢，如果有的话这个模型就可以进一步拓展到具有任意结构的内容上面了。</p>
+        <p>生成对抗网络(Generative Adversarial Nets) 作为生成模型的一种，从2013年提出以来就在CV界大放异彩，各种玩法层出不穷。本文旨在了解GAN的进展的同时针对文章中具体实现的方法进行琢磨，希望能在阅读文章的过程中找到训练GAN的有效的方法或者Trick，具体Code基于Pytorch，并不定时更新。<br><a id="more"></a></p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>原始目标函数:<br>$\min_G \max_D V(D,G)=\mathbb{E}_{x\thicksim p_{data}(x)}[logD(x)]+\mathbb{E}_{z\thicksim p_z(z)}[log(1-D(G(z)))]$<br>基于一个博弈的思想，希望判别器D能区别从真实分布采样的样本$x$和从随机分布采样($z\thicksim p_z(z)$)后通过生成器G生成的样本$G(z)$，因此是最大化$V(D,G)$。而生成器G希望能生成出不被判别器D判别出来的样本，因此希望最小化$V(D,G)$。<br>然而，问题在于，由于一开始生成器生成的东西太烂了，判别器很容易就区别出来，那么G优化的目标<br>$\mathbb{E}_{z\thicksim p_z(z)}[log(1-D(G(z)))]$<br>的梯度就十分小，导致G不能很好地update自己的参数，因此整个游戏就运转不起来了。在GAN原文中对G的优化目标做了一些改动:<br>$\max_G V(G)=\mathbb{E}_{z\thicksim p_z(z)}[logD(G(z))]$<br>但是实际上两个优化目标据说是不等价的。</p>
+<h2 id="Conditional-GAN"><a href="#Conditional-GAN" class="headerlink" title="Conditional GAN"></a>Conditional GAN</h2><p>希望可以引入一些条件使得生成的内容是condition on额外的信息如类标。那么目标函数为:<br>$\min_G \max_D V(D,G)=\mathbb{E}_{x\thicksim p_{data}(x)}[logD(x|y)]+\mathbb{E}_{z\thicksim p_z(z)}[log(1-D(G(z|y)))]$<br>比如我们可以指定生成的mnist数字是哪个数字，而不是随机产生数字。</p>
+<h3 id="实现细节"><a href="#实现细节" class="headerlink" title="实现细节"></a>实现细节</h3><p>1.For G: 从uniform distribution中获得100维的噪声。但在另外一篇github blog中建议在高斯分布下面采样。用的都是relu做激活函数。<br>2.For D: 作者使用了maxout作为激活函数，并说明maxout在这个task里面很好并且附上了一个诡异的微笑！！！！:)<br>3.用SGD lr=0.1 然后指数下降到0.000001, with decay factor of 1.00004? momentum从0.5上升到0.7，dropout=0.5 for both G and D。</p>
+<h2 id="Improved-Techniques-for-Training-GANs"><a href="#Improved-Techniques-for-Training-GANs" class="headerlink" title="Improved Techniques for Training GANs"></a>Improved Techniques for Training GANs</h2><p>主要提出几个方法来稳定GAN的迭代过程</p>
+<h3 id="1-Feature-matching"><a href="#1-Feature-matching" class="headerlink" title="1.Feature matching"></a>1.Feature matching</h3><p>GAN的本质目的是为了使得随机分布$p_z(z)$经过变换$G()$之后能接近真实分布$p_{data}(x)$。在这个过程中，判别器的作用是用来给G提供梯度的，那么实际上可以在特征的时候就进行判别，这种方法也一定程度上获得较好的结果。<br>为此，G的loss function定义为<br>$||\mathbb{E}_{x\thicksim p_{data}(x)}\mathbf{f}(\mathbf{x})-\mathbb{E}_{z\thicksim p_z(z)}\mathbf{f}(G(z))||$<br>实际上这个目标函数一定程度上与WGAN的目标函数相似，只是缺少了1-Lipschitz的约束，和D的目标函数仍用原来的。</p>
+<h3 id="2-Minibatch-discrimination"><a href="#2-Minibatch-discrimination" class="headerlink" title="2.Minibatch discrimination"></a>2.Minibatch discrimination</h3><p>mode collapse是指生成器重复生成同一种模式或类别的图片，这是由于在loss function中判别器只需要判别真假图片，而不考虑图片的多样性，使得生成器偏向于生成使得loss变小的图片，这样的话又会影响判别器往某些样本方向去下降。综合后使得生成器生成相同种类的图片。<br>文章中引入了Minibatch discrimination，首先度量batch内所有样本的特征的距离的平均，然后与特征拼接，相当于判别器在判别特征的同时考虑每个样本的diversity，以期望减少mode collapse的影响。但是实际上在后面的文章中较少看到这种处理方式。</p>
+<h3 id="3-Historical-averaging"><a href="#3-Historical-averaging" class="headerlink" title="3.Historical averaging"></a>3.Historical averaging</h3><p>这个方法主要是对参数进行操作，希望参数能平稳地更新？相当于是限制了梯度的数值，与GP-WGAN有点类似。</p>
+<h3 id="4-One-sided-label-smoothing"><a href="#4-One-sided-label-smoothing" class="headerlink" title="4.One-sided label smoothing"></a>4.One-sided label smoothing</h3><p>在这里，作者用0.9替换原来的目标1.，而0保持不变..(Tricky)<br>在验证方法上，作者提出使用Inception model对生成的图片进行分类来看得分用于评估生成质量。对于生成质量好的有意义的图片，条件类别分布$p(y|x)$具有较低的信息熵，另外又希望生成更加diverse的图片因此$\int p(y|x=G(z))dz$具有较高的信息熵。因此，可以通过衡量$exp(\mathbb{E}_\mathbf{x}KL(P(y|\mathbf{x})||p(y)))$得到。</p>
+<h2 id="Info-GAN"><a href="#Info-GAN" class="headerlink" title="Info GAN"></a>Info GAN</h2><p>这篇文章的主要思想是希望在生成模型中引入一个向量c，控制类似角度、类别等信息，相当于一个控制器。那么在优化GAN模型的时候就要把c单独分出来去对待。引入信息论的思想之后推导出可以通过增加一个互信息正则项来控制c表达的信息内容。如假设我们希望控制生成人脸的角度，就可通过不同的c的值来控制。<br>然而，实际上做法是把c分别拆成一组categorical latent code和continuous latent code来完成，在D中用softmax产生categorical latent code，同时通过假设continuous latent code可以通过factored Gaussian来表达之后利用reparameterize的方法拆成mean和variance来近似一个高斯分布来获得。<br>那么相当于在生成的时候[z,c]中z与vanilla GAN的一样，但是c可以控制生成的catergori和通过continuous latent code来控制一些诸如角度之类的一些连续数值变量。</p>
+<p>  欢迎转载和提出意见和建议，转载请注明出处。<a href="http://yongyitang92.github.io" target="_blank" rel="external">http://yongyitang92.github.io</a></p>
 
       
     </div>
@@ -317,17 +321,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/04/23/20160423-Human-Activity-Recognition-and-Prediction/" rel="next" title="[20160423]Human Activity Recognition and Prediction (C-6)">
-                <i class="fa fa-chevron-left"></i> [20160423]Human Activity Recognition and Prediction (C-6)
+              <a href="/2017/03/22/20170322-CA-Social-Scene-Understanding-End-to-End-Multi-Person-Action-Localization-adn-Collective-acitivty/" rel="next" title="20170322 [CA] Social Scene Understanding End-to-End Multi-Person Action Localization adn Collective acitivty">
+                <i class="fa fa-chevron-left"></i> 20170322 [CA] Social Scene Understanding End-to-End Multi-Person Action Localization adn Collective acitivty
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/05/31/20160531-Discriminative-Embeddings-of-Latent-Variable-Models-for-Structured-Data/" rel="prev" title="[20160531] Discriminative Embeddings of Latent Variable Models for Structured Data">
-                [20160531] Discriminative Embeddings of Latent Variable Models for Structured Data <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -353,8 +353,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/04/29/20160429-Neural-Machine-Translation-by-jointly-learning-to-align-and-translate/"
-           data-title="20160429 Neural Machine Translation by jointly learning to align and translate" data-url="http://yoursite.com/2016/04/29/20160429-Neural-Machine-Translation-by-jointly-learning-to-align-and-translate/">
+      <div class="ds-thread" data-thread-key="2017/06/27/20170627-GAN笔记/"
+           data-title="20170627-GAN笔记" data-url="http://yoursite.com/2017/06/27/20170627-GAN笔记/">
       </div>
     
   </div>
@@ -467,7 +467,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Intro"><span class="nav-number">2.</span> <span class="nav-text">Intro</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Learning-to-align-and-translate"><span class="nav-number">3.</span> <span class="nav-text">Learning to align and translate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conditional-GAN"><span class="nav-number">2.</span> <span class="nav-text">Conditional GAN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现细节"><span class="nav-number">2.1.</span> <span class="nav-text">实现细节</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Improved-Techniques-for-Training-GANs"><span class="nav-number">3.</span> <span class="nav-text">Improved Techniques for Training GANs</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Feature-matching"><span class="nav-number">3.1.</span> <span class="nav-text">1.Feature matching</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Minibatch-discrimination"><span class="nav-number">3.2.</span> <span class="nav-text">2.Minibatch discrimination</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Historical-averaging"><span class="nav-number">3.3.</span> <span class="nav-text">3.Historical averaging</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-One-sided-label-smoothing"><span class="nav-number">3.4.</span> <span class="nav-text">4.One-sided label smoothing</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Info-GAN"><span class="nav-number">4.</span> <span class="nav-text">Info GAN</span></a></li></ol></div>
             
           </div>
         </section>
